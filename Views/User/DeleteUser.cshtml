@@ -1,0 +1,77 @@
+﻿@model BMS.Models.User
+
+
+@{
+    ViewData["Title"] = "Delete User";
+    var successMessage = TempData["successMessage"]?.ToString();
+    var errorMessage = TempData["errorMessage"]?.ToString();
+}
+
+@if (!string.IsNullOrWhiteSpace(@successMessage))
+{
+    <div class="alert alert-success">
+        <strong>Success! </strong>@successMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+}
+else if (!string.IsNullOrWhiteSpace(@errorMessage))
+{
+    <div class="alert alert-danger">
+        <strong>Error! </strong>@errorMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Delete User</h2>
+                    <hr>
+                    <form asp-action="DeleteUser" method="post" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="UserId" class="control-label">UserId:<span class="text-danger">*</span></label>
+                            <input type="text" asp-for="UserId" class="form-control" required readonly/>
+                            <span asp-validation-for="UserId" class="text-danger"></span>
+                            <div class="invalid-feedback">Please enter a UserId.</div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="UserName" class="control-label">Username:<span class="text-danger">*</span></label>
+                            <input type="text" asp-for="UserName" class="form-control" required readonly />
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                            <div class="invalid-feedback">Please enter a username.</div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label">Email:<span class="text-danger">*</span></label>
+                            <input asp-for="Email" class="form-control" required readonly />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                            <div class="invalid-feedback">Please enter a valid email address.</div>
+                        </div>
+                        <br />
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure to delete the item')">Delete</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-6">
+            <input type="button" class="btn btn-block btn-link mb-2" value="Back" onclick="history.back()" />
+
+            
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

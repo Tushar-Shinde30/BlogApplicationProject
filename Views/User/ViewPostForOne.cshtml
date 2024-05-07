@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "My Post";
+    var successMessage = TempData["successMessage"]?.ToString();
+    var errorMessage = TempData["errorMessage"]?.ToString();
+}
+<h3>@ViewData["Title"]</h3>
+<hr />
+
+
+@if (!string.IsNullOrWhiteSpace(@successMessage))
+{
+    <div class="alert alert-success">
+
+        <strong>Success! </strong>@successMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+}
+else if (!string.IsNullOrWhiteSpace(@errorMessage))
+{
+    <div class="alert alert-danger">
+        <strong>Error! </strong>@errorMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+}
+
+
+<form>
+    <table class="table table-responsive table-hover table-bordered" id="dataTableData">
+        <thead>
+            <tr class="table-active">
+                <th class="text-center">Title</th>
+                <th class="text-center">Content</th>
+                <th class="text-center">Created At</th>
+                <th class="text-center">Updated At</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var post in Model)
+                {
+                    <tr>
+                        <td>@post.Title</td>
+                        <td>@post.Content</td>
+                        <td>@post.CreatedAt</td>
+                        <td>@post.UpdatedAt</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a asp-controller="User" asp-action="EditPost" asp-route-postid="@post.PostId"
+                                   class="btn btn-primary">Edit</a>
+                                <a asp-controller="User" asp-action="DeletePost" asp-route-postid="@post.PostId"
+                                   class="btn btn-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        <div>
+                           You have not written any blog yet!!!
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @* Back Button *@
+    <input type="button" class="btn btn-block btn-warning mb-2" value="Back" onclick="history.back()" />
+</form>
+
+@section scripts {
+    <script src="~/js/datatable_file.js"></script>
+}

@@ -1,0 +1,68 @@
+﻿@model BMS.Models.User
+
+@{
+    ViewData["Title"] = "Login";
+    var successMessage = TempData["successMessage"]?.ToString();
+    var errorMessage = TempData["errorMessage"]?.ToString();
+}
+
+@if (!string.IsNullOrWhiteSpace(@successMessage))
+{
+    <div class="alert alert-success">
+        <strong>Success! </strong>@successMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+}
+else if (!string.IsNullOrWhiteSpace(@errorMessage))
+{
+    <div class="alert alert-danger">
+        <strong>Error! </strong>@errorMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Login</h2>
+                    <hr>
+                    <form asp-action="Login" method="post" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="UserName" class="control-label">Username:<span class="text-danger">*</span></label>
+                            <input type="text" asp-for="UserName" class="form-control" required />
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                            <div class="invalid-feedback">Please enter a username.</div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Password" class="control-label">Password:<span class="text-danger">*</span></label>
+                            <input asp-for="Password" class="form-control" type="password" required />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                            <div class="invalid-feedback">Please enter a password.</div>
+                        </div>
+                        <br />
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-outline-success">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-4">
+            <a asp-action="Create" class="btn btn-link">Don't Have Account?</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}
+

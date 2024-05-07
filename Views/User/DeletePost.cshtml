@@ -1,0 +1,93 @@
+﻿@model BMS.Models.PostsViewModel
+
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor accessor
+
+@{
+    ViewData["Title"] = "Delete Post";
+    var successMessage = TempData["successMessage"]?.ToString();
+    var errorMessage = TempData["errorMessage"]?.ToString();
+    var Id = @accessor.HttpContext.Session.GetInt32("UserId");
+    //var CreatedAt = @accessor.HttpContext.Session.GetString("CreatedAt");
+}
+
+@if (!string.IsNullOrWhiteSpace(@successMessage))
+{
+    <div class="alert alert-success">
+        <strong>Success! </strong>@successMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+}
+else if (!string.IsNullOrWhiteSpace(@errorMessage))
+{
+    <div class="alert alert-danger">
+        <strong>Error! </strong>@errorMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Delete Post</h2>
+                    <hr>
+                    <form asp-action="DeletePost" method="post" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="PostId" />
+                        <div class="form-group">
+                            <label asp-for="CreatedAt" class="control-label">Created At:<span class="text-danger">*</span></label>
+                            <input type="date" asp-for="CreatedAt" class="form-control" readonly />
+
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <label asp-for="UpdatedAt" class="control-label">Updated At:<span class="text-danger">*</span></label>
+                            <span>@DateTime.Now.ToShortDateString()</span>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <label asp-for="UserId" class="control-label">UserId:<span class="text-danger">*</span></label>
+                            <input type="text" id="UserId" asp-for="UserId" class="form-control" required readonly
+                                   value="@Id" />
+                            <span asp-validation-for="UserId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Title" class="control-label">Title:<span class="text-danger">*</span></label>
+                            <input type="text" asp-for="Title" class="form-control" required readonly/>
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Content" class="control-label">Content:<span class="text-danger">*</span></label>
+                            <input asp-for="Content" class="form-control" required readonly/>
+                            <span asp-validation-for="Content" class="text-danger"></span>
+                        </div>
+                        <br />
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure to delete the item : @Model.Title')">Delete</button>
+                            <input type="button" class="btn btn-block btn-outline-warning mb-2" value="Cancel" onclick="history.back()" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-6">
+            <a asp-action="Index" class="btn btn-link">Back to Post</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+
+
+

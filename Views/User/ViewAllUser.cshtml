@@ -1,0 +1,78 @@
+﻿View all users
+@{
+    ViewData["Title"] = "All user list";
+    var successMessage = TempData["successMessage"]?.ToString();
+    var errorMessage = TempData["errorMessage"]?.ToString();
+}
+<h3>@ViewData["Title"]</h3>
+<hr />
+
+
+@if (!string.IsNullOrWhiteSpace(@successMessage))
+{
+    <div class="alert alert-success">
+
+        <strong>Success! </strong>@successMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+}
+else if (!string.IsNullOrWhiteSpace(@errorMessage))
+{
+    <div class="alert alert-danger">
+        <strong>Error! </strong>@errorMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+}
+
+
+<form>
+    <table class="table table-responsive table-hover table-bordered" id="dataTableData">
+        <thead>
+            <tr class="table-active">
+                <th class="text-center">User Id</th>
+                <th class="text-center">UserName</th>
+                <th class="text-center">Email</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.UserId</td>
+                        <td>@user.UserName</td>
+                        <td>@user.Email</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a asp-controller="User" asp-action="DeleteUser" asp-route-userid="@user.UserId"
+                                   class="btn btn-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        <div>
+                            You have not written any blog yet!!!
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @* Back Button *@
+    <input type="button" class="btn btn-block btn-warning mb-2" value="Back" onclick="history.back()" />
+
+    
+</form>
+
+@section scripts {
+    <script src="~/js/datatable_file.js"></script>
+}

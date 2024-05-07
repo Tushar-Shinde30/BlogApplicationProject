@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor accessor
+
+@{
+    ViewData["Title"] = "User Profile";
+    var userId = @accessor.HttpContext.Session.GetInt32("UserId");
+    var userName = @accessor.HttpContext.Session.GetString("Username");
+    var email = @accessor.HttpContext.Session.GetString("UserEmail");
+}
+
+<h2 class="text-center">User Profile</h2>
+
+<div class="text-center">
+    <p><strong>User ID:</strong> @userId</p>
+    <p><strong>Username:</strong> @userName</p>
+    <p><strong>Email:</strong> @email</p>
+    <!-- Add more profile details here -->
+    <div class="form-group text-center">
+        <input type="button" class="btn btn-block btn-outline-warning mb-2" value="Back" onclick="history.back()" />
+
+    </div>
+ 
+</div>
